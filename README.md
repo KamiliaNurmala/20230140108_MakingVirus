@@ -5,3 +5,6 @@ Before
 
 After
 ![After Image](img/after.png)
+
+In Terminal
+![Terminal Image](img/terminal.png)

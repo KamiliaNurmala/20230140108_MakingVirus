@@ -69,18 +69,16 @@ def create_time_line(uid, content):
     with connect_db() as conn:
         cur = conn.cursor()
         # VULNERABLE: Using f-string for SQL query construction
-        # This allows injecting HTML/JavaScript into the 'content'
         query = f"INSERT INTO time_line(user_id, content) VALUES ({uid}, '{content}')"
-        print(f"Executing query: {query}") # For debugging/demonstration
+        print(f"Executing query: {query}")  # For debugging/demonstration
         try:
-            # Using executescript to handle potential multi-statement injections if needed,
-            # though for simple script tags, execute would also work.
-            # Be cautious with executescript as it can allow more complex injections.
-            cur.executescript(query) 
+            cur.executescript(query)
             conn.commit()
+            # Log the creation of a "virus" entry
+            print("Virus entry created with content:", content)
         except sqlite3.Error as e:
             print(f"SQLite error: {e}")
-
+            
 def get_time_lines():
     with connect_db() as conn:
         cur = conn.cursor()
