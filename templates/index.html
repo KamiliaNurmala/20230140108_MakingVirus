@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Timeline App</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.4.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+
+</head>
+<body>
+<!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">TimelineApp</a>
+        <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <span class="navbar-text text-white">
+              Welcome, {{ user }}
+            </span>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row mb-4">
+      <div class="col-md-8">
+        <!-- Add New Entry -->
+        <div class="card">
+          <div class="card-body">
+            <form action="/create" method="post" class="d-flex">
+              <input name="content" class="form-control me-2" placeholder="Add new entry..." required>
+              <button type="submit" class="btn btn-success">Add</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <h5 class="mb-0">Search</h5>
+      <div class="col-md-4">
+        <!-- Search -->
+        <div class="card">
+          <div class="card-body">
+            <form action="/search" method="get" class="input-group">
+              <input name="keyword" class="form-control" placeholder="Search Something Here...">
+              <button class="btn btn-outline-secondary" type="submit">Go</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline List -->
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0">Timeline</h5>
+      </div>
+      <ul class="list-group list-group-flush">
+        {% for line in tl %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <div>
+            <span class="badge bg-secondary me-2"></span>
+            {{ line.content | safe }} {# MODIFIED: Added |safe filter #}
+          </div>
+          <a href="/delete/{{ line.id }}" class="btn btn-sm btn-danger">Delete</a>
+        </li>
+        <h5 class="mb-0">----------------------------</h5>
+        {% else %}
+        <li class="list-group-item text-center text-muted">
+          No entries yet.
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.4.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{{ url_for('static', filename='js/virus.js') }}"></script>
+</body>
+</html>

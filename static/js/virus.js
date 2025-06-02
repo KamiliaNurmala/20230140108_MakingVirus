@@ -1,0 +1,1 @@
+console.error('YOU HAVE BEEN INFECTED HAHAHA !!! FROM FILE!');
